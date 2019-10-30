@@ -1,9 +1,9 @@
 # Race Meeting Manager
 This is a sample application to try out some new technology, namely .Net Core 3 and Blazor.
 
-Back-end is a SQL Server database hosted on Docker SQL Server.
-Using a Web API written in ASP.NET Core 3, using Entity Framework Core 3 code-first approach.
-Automapper to translate between models and view models.
-Blazor front-end with Bootstrap.
-IDE is Visual Studio 2019.
-Source code is hosted on GitHub and integrated with VS
+1. Back-end is a SQL Server database hosted on Docker SQL Server.
+2. Using a Web API written in ASP.NET Core 3, using Entity Framework Core 3 code-first approach.
+3. Automapper to translate between models and view models.
+4. Blazor front-end with Bootstrap.
+5. IDE is Visual Studio 2019.
+6. Source code is hosted on GitHub and integrated with VS
