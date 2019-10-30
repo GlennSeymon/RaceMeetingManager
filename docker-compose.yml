@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  racemeetingmanagerwebapi:
+    links:  
+      - raceMeetingManagerSQLServerService
+    image: ${DOCKER_REGISTRY-}racemeetingmanagerwebapi
+    build:
+      context: .
+      dockerfile: RaceMeetingManagerWebAPI/Dockerfile
+  raceMeetingManagerSQLServerService:  
+    image: microsoft/mssql-server-linux:2017-latest  
+    hostname: 'racemeetingmanagerwebapi'  
+    environment:  
+      ACCEPT_EULA: Y  
+      SA_PASSWORD: "BigPassw0rd"  
+    volumes:  
+      - ./data/mssql:/var/opt/mssql3  
+    ports:  
+      - '1433:1433'  
+    expose:  
+      - 1433
