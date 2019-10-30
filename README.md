@@ -1,4 +1,4 @@
-#Race Meeting Manager
+# Race Meeting Manager
 This is a sample application to try out some new technology, namely .Net Core 3 and Blazor.
 
 Back-end is a SQL Server database hosted on Docker SQL Server.
