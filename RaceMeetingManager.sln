@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceMeetingManager", "RaceMeetingManager\RaceMeetingManager.csproj", "{7D8E12B4-D9E6-4459-94A3-62B5D80D226B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceMeetingManagerWebAPI", "RaceMeetingManagerWebAPI\RaceMeetingManagerWebAPI.csproj", "{DE5E997C-4AF6-4612-B779-8DC1E5DC8333}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceMeetingManagerUIBlazor", "RaceMeetingManagerUIBlazor\RaceMeetingManagerUIBlazor\RaceMeetingManagerUIBlazor.csproj", "{C6CD2465-6605-43B1-90D9-3A25F4A62DDA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DE5E997C-4AF6-4612-B779-8DC1E5DC8333} = {DE5E997C-4AF6-4612-B779-8DC1E5DC8333}
 		{9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9} = {9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceMeetingManagerWebAPI", "RaceMeetingManagerWebAPI\RaceMeetingManagerWebAPI.csproj", "{DE5E997C-4AF6-4612-B779-8DC1E5DC8333}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceMeetingManagerDTOLayer", "RaceMeetingManagerDTOLayer\RaceMeetingManagerDTOLayer.csproj", "{CCA321E7-5FF3-40B6-9B92-A9CC04FE7167}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D8E12B4-D9E6-4459-94A3-62B5D80D226B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D8E12B4-D9E6-4459-94A3-62B5D80D226B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D8E12B4-D9E6-4459-94A3-62B5D80D226B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D8E12B4-D9E6-4459-94A3-62B5D80D226B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE5E997C-4AF6-4612-B779-8DC1E5DC8333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE5E997C-4AF6-4612-B779-8DC1E5DC8333}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE5E997C-4AF6-4612-B779-8DC1E5DC8333}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,6 +29,14 @@ Global
 		{9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A3CF8F5-E4FF-4FF5-98DE-1974187BAEA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6CD2465-6605-43B1-90D9-3A25F4A62DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6CD2465-6605-43B1-90D9-3A25F4A62DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6CD2465-6605-43B1-90D9-3A25F4A62DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6CD2465-6605-43B1-90D9-3A25F4A62DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCA321E7-5FF3-40B6-9B92-A9CC04FE7167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCA321E7-5FF3-40B6-9B92-A9CC04FE7167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCA321E7-5FF3-40B6-9B92-A9CC04FE7167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCA321E7-5FF3-40B6-9B92-A9CC04FE7167}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

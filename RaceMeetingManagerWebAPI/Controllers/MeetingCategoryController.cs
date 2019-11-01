@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using RaceMeetingManagerDTOLayer;
+using RaceMeetingManagerWebAPI.Interface;
 using RaceMeetingManagerWebAPI.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,20 +12,24 @@ namespace RaceMeetingManagerWebAPI.Controllers
 	public class MeetingCategoryController : ControllerBase
 	{
 		/// <summary>The meeting sample 2019 database context</summary>  
-		private readonly RaceMeetingManagerContext meetingSample2019Context;
+		private readonly RaceMeetingManagerContext context;
+		private readonly IMeetingCategoryDTOService meetingCategoryDTOService;
+		private readonly IMapper mapper;
 
-		public MeetingCategoryController(RaceMeetingManagerContext meetingSample2019Context)
+		public MeetingCategoryController(RaceMeetingManagerContext context, IMeetingCategoryDTOService meetingCategoryDTOService, IMapper mapper)
 		{
-			this.meetingSample2019Context = meetingSample2019Context;
+			this.context = context;
+			this.meetingCategoryDTOService = meetingCategoryDTOService;
+			this.mapper = mapper;
 		}
 
 		/// <summary>Gets the meeting category.</summary>  
-		/// <returns>Task<ActionResult<IEnumerable<MeetingCategory>>>.</returns>  
+		/// <returns>Task<ActionResult<IEnumerable<MeetingCategoryDTO>>>.</returns>  
 		/// <remarks> GET api/values</remarks>  
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<MeetingCategory>>> GetMeetingCategories()
+		public async Task<ActionResult<IEnumerable<MeetingCategoryDTO>>> GetMeetingCategories()
 		{
-			return Ok(await meetingSample2019Context.MeetingCategories.ToListAsync());
+			return Ok(await this.meetingCategoryDTOService.Get(this.mapper));
 		}
 
 		/// <summary>Creates the specified meeting category.</summary>  
@@ -35,8 +41,8 @@ namespace RaceMeetingManagerWebAPI.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			await meetingSample2019Context.MeetingCategories.AddAsync(meetingCategory);
-			await meetingSample2019Context.SaveChangesAsync();
+			await context.MeetingCategories.AddAsync(meetingCategory);
+			await context.SaveChangesAsync();
 
 			return Ok(meetingCategory);
 		}
@@ -51,7 +57,7 @@ namespace RaceMeetingManagerWebAPI.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var meetingCategory = await meetingSample2019Context.MeetingCategories.FindAsync(id);
+			var meetingCategory = await context.MeetingCategories.FindAsync(id);
 
 			if (meetingCategory == null)
 				return NotFound();
@@ -59,7 +65,7 @@ namespace RaceMeetingManagerWebAPI.Controllers
 			meetingCategory.Description = meetingCategoryFromJson.Description;
 			meetingCategory.MeetingCategoryCode = id;
 
-			await meetingSample2019Context.SaveChangesAsync();
+			await context.SaveChangesAsync();
 
 			return Ok(meetingCategory);
 		}
@@ -70,13 +76,13 @@ namespace RaceMeetingManagerWebAPI.Controllers
 		[HttpDelete("{id}")]
 		public async Task<ActionResult<MeetingCategory>> Delete(int id)
 		{
-			var meetingCategory = await meetingSample2019Context.MeetingCategories.FindAsync(id);
+			var meetingCategory = await context.MeetingCategories.FindAsync(id);
 
 			if (meetingCategory == null)
 				return NotFound();
 
-			meetingSample2019Context.Remove(meetingCategory);
-			await meetingSample2019Context.SaveChangesAsync();
+			context.Remove(meetingCategory);
+			await context.SaveChangesAsync();
 
 			return Ok(meetingCategory);
 		}
