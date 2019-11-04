@@ -34,7 +34,7 @@ namespace RaceMeetingManagerWebAPI
 			IMapper mapper = mappingConfig.CreateMapper();
 			services.AddSingleton(mapper);
 
-			services.AddControllers()/*.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)*/;
+			services.AddControllers();
 			services.AddDbContext<RaceMeetingManagerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
 			services.AddSwaggerDocument();
 		}
