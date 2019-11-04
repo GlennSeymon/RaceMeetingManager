@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>9a3cf8f5-e4ff-4ff5-98de-1974187baea9</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/meetingcategory</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/meeting</DockerServiceUrl>
     <DockerServiceName>racemeetingmanagerwebapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

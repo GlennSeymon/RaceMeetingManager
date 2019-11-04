@@ -21,6 +21,7 @@ namespace RaceMeetingManagerUIBlazor
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddSingleton<MeetingCategoryService>();
+			services.AddSingleton<MeetingService>();
 
 			services.AddRazorPages();
 			services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });

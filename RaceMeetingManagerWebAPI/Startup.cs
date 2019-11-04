@@ -24,6 +24,7 @@ namespace RaceMeetingManagerWebAPI
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddTransient<IMeetingCategoryDTOService, MeetingCategoryDTOService>();
+			services.AddTransient<IMeetingDTOService, MeetingDTOService>();
 
 			// Auto Mapper Configurations
 			var mappingConfig = new MapperConfiguration(mc =>

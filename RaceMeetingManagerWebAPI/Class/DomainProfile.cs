@@ -10,14 +10,13 @@ namespace RaceMeetingManagerWebAPI.Classes
 		{
 			CreateMap<MeetingCategory, MeetingCategoryDTO>().ReverseMap();
 
-			/*
-						CreateMap<Meeting, MeetingVM>()
-							.ForMember(dest => dest.VenueCode, opt => opt.MapFrom(src => src.Venue.VenueCode))
-							.ForMember(dest => dest.StateCode, opt => opt.MapFrom(src => src.State.StateCode))
-							.ReverseMap()
+			CreateMap<Meeting, MeetingDTO>()
+				.ForMember(dest => dest.VenueDesc, opt => opt.MapFrom(src => src.Venue.Name))
+				.ForMember(dest => dest.StateDesc, opt => opt.MapFrom(src => src.State.DescShort))
+				.ReverseMap();
 
-						CreateMap<Race, RaceVM>().ReverseMap();
-			*/
+			//CreateMap<Race, RaceVM>().ReverseMap();
+
 		}
 	}
 }

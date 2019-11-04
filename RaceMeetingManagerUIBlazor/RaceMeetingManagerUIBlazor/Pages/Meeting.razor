@@ -1,0 +1,49 @@
+﻿@page "/meeting"
+
+@using RaceMeetingManagerUIBlazor.Data
+@using RaceMeetingManagerDTOLayer
+@inject MeetingService meetingService
+
+<h1>Meeting</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (meetings == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+			<tr>
+				<th>Id</th>
+				<th>Title</th>
+				<th>State</th>
+				<th>Date</th>
+				<th>Venue</th>
+			</tr>
+        </thead>
+        <tbody>
+            @foreach (var meeting in meetings)
+			{
+			<tr>
+				<td>@meeting.MeetCode</td>
+				<td>@meeting.Title</td>
+				<td>@meeting.StateDesc</td>
+				<td>@meeting.MeetDate</td>
+				<td>@meeting.VenueDesc</td>
+			</tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+	MeetingDTO[] meetings;
+
+	protected override async Task OnInitializedAsync()
+	{
+		meetings = await meetingService.GetMeetingAsync();
+	}
+}

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RaceMeetingManagerWebAPI.Interface;
 using RaceMeetingManagerWebAPI.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +13,29 @@ namespace RaceMeetingManagerWebAPI.Controllers
 	[ApiController]
 	public class MeetingsController : ControllerBase
 	{
-		private readonly RaceMeetingManagerContext _context;
+		private readonly RaceMeetingManagerContext context;
+		private readonly IMeetingDTOService meetingDTOService;
+		private readonly IMapper mapper;
 
-		public MeetingsController(RaceMeetingManagerContext context)
+		public MeetingsController(RaceMeetingManagerContext context, IMeetingDTOService meetingDTOService, IMapper mapper)
 		{
-			_context = context;
+			this.context = context;
+			this.meetingDTOService = meetingDTOService;
+			this.mapper = mapper;
 		}
 
 		// GET: api/Meetings
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Meeting>>> GetMeetings()
 		{
-			return await _context.Meetings.ToListAsync();
+			return Ok(await this.meetingDTOService.Get(this.mapper));
 		}
 
 		// GET: api/Meetings/5
 		[HttpGet("{id}")]
 		public async Task<ActionResult<Meeting>> GetMeeting(int id)
 		{
-			var meeting = await _context.Meetings.FindAsync(id);
+			var meeting = await context.Meetings.FindAsync(id);
 
 			if (meeting == null)
 			{
@@ -48,11 +54,11 @@ namespace RaceMeetingManagerWebAPI.Controllers
 				return BadRequest();
 			}
 
-			_context.Entry(meeting).State = EntityState.Modified;
+			context.Entry(meeting).State = EntityState.Modified;
 
 			try
 			{
-				await _context.SaveChangesAsync();
+				await context.SaveChangesAsync();
 			}
 			catch (DbUpdateConcurrencyException)
 			{
@@ -73,8 +79,8 @@ namespace RaceMeetingManagerWebAPI.Controllers
 		[HttpPost]
 		public async Task<ActionResult<Meeting>> PostMeeting(Meeting meeting)
 		{
-			_context.Meetings.Add(meeting);
-			await _context.SaveChangesAsync();
+			context.Meetings.Add(meeting);
+			await context.SaveChangesAsync();
 
 			return CreatedAtAction("GetMeeting", new { id = meeting.MeetCode }, meeting);
 		}
@@ -83,21 +89,21 @@ namespace RaceMeetingManagerWebAPI.Controllers
 		[HttpDelete("{id}")]
 		public async Task<ActionResult<Meeting>> DeleteMeeting(int id)
 		{
-			var meeting = await _context.Meetings.FindAsync(id);
+			var meeting = await context.Meetings.FindAsync(id);
 			if (meeting == null)
 			{
 				return NotFound();
 			}
 
-			_context.Meetings.Remove(meeting);
-			await _context.SaveChangesAsync();
+			context.Meetings.Remove(meeting);
+			await context.SaveChangesAsync();
 
 			return meeting;
 		}
 
 		private bool MeetingExists(int id)
 		{
-			return _context.Meetings.Any(e => e.MeetCode == id);
+			return context.Meetings.Any(e => e.MeetCode == id);
 		}
 	}
 }
