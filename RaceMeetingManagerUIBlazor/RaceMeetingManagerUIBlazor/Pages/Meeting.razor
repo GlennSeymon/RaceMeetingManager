@@ -10,33 +10,18 @@
 
 @if (meetings == null)
 {
-    <p><em>Loading...</em></p>
+	<p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-			<tr>
-				<th>Id</th>
-				<th>Title</th>
-				<th>State</th>
-				<th>Date</th>
-				<th>Venue</th>
-			</tr>
-        </thead>
-        <tbody>
-            @foreach (var meeting in meetings)
-			{
-			<tr>
-				<td>@meeting.MeetCode</td>
-				<td>@meeting.Title</td>
-				<td>@meeting.StateDesc</td>
-				<td>@meeting.MeetDate</td>
-				<td>@meeting.VenueDesc</td>
-			</tr>
-            }
-        </tbody>
-    </table>
+	<DataGrid TItem="MeetingDTO" Data="@meetings">
+		<DataGridCommandColumn TItem="MeetingDTO" />
+		<DataGridNumericColumn TItem="MeetingDTO" Field="@nameof(MeetingDTO.MeetCode)" Caption="Id" />
+		<DataGridColumn TItem="MeetingDTO" Field="@nameof(MeetingDTO.Title)" Caption="Title" AllowEdit="true" />
+		<DataGridColumn TItem="MeetingDTO" Field="@nameof(MeetingDTO.StateDesc)" Caption="State" AllowEdit="true" />
+		<DataGridDateColumn TItem="MeetingDTO" Field="@nameof(MeetingDTO.MeetDate)" Caption="MeetDate" AllowEdit="true" />
+		<DataGridColumn TItem="MeetingDTO" Field="@nameof(MeetingDTO.VenueDesc)" Caption="Venue" AllowEdit="true" />
+	</DataGrid>
 }
 
 @code {

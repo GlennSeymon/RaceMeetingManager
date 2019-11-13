@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RaceMeetingManagerWebAPI.Class;
+using RaceMeetingManagerWebAPI.Classes;
 using RaceMeetingManagerWebAPI.Model;
 
 namespace RaceMeetingManagerWebAPI

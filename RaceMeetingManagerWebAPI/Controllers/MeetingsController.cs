@@ -28,7 +28,7 @@ namespace RaceMeetingManagerWebAPI.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Meeting>>> GetMeetings()
 		{
-			return Ok(await this.meetingDTOService.Get(this.mapper));
+			return Ok(await this.meetingDTOService.Get());
 		}
 
 		// GET: api/Meetings/5

@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +29,13 @@ namespace RaceMeetingManagerUIBlazor
 			services.AddRazorPages();
 			services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 			services.AddSingleton<WeatherForecastService>();
+
+			services.AddBlazorise(options =>
+				 {
+					 options.ChangeTextOnKeyPress = true; // optional
+				 })
+				.AddBootstrapProviders()
+				.AddFontAwesomeIcons();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +56,10 @@ namespace RaceMeetingManagerUIBlazor
 			app.UseStaticFiles();
 
 			app.UseRouting();
+
+			app.ApplicationServices
+			  .UseBootstrapProviders()
+			  .UseFontAwesomeIcons();
 
 			app.UseEndpoints(endpoints =>
 			{

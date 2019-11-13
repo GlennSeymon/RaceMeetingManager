@@ -7,9 +7,9 @@ namespace RaceMeetingManagerWebAPI.Interface
 {
 	public interface IMeetingDTOService
 	{
-		Task<MeetingDTO> Get(IMapper mapper, int meetCode);
-		Task<IEnumerable<MeetingDTO>> Get(IMapper mapper);
-		void Update(IMapper mapper, MeetingDTO meetingDTO);
-		Task Add(IMapper mapper, MeetingDTO meetingDTO);
+		Task<MeetingDTO> Get(int meetCode);
+		Task<IEnumerable<MeetingDTO>> Get();
+		void Update(MeetingDTO meetingDTO);
+		Task Add(MeetingDTO meetingDTO);
 	}
 }

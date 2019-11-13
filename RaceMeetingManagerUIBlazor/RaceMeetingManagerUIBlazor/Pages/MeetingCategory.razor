@@ -2,6 +2,8 @@
 
 @using RaceMeetingManagerUIBlazor.Data
 @using RaceMeetingManagerDTOLayer
+@using System.Linq
+
 @inject MeetingCategoryService meetingCategoryService
 
 <h1>Meeting Category</h1>
@@ -10,34 +12,88 @@
 
 @if (meetingCategories == null)
 {
-    <p><em>Loading...</em></p>
+	<p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var meetingCategory in meetingCategories)
-			{
-                <tr>
-                    <td>@meetingCategory.MeetingCategoryCode</td>
-                    <td>@meetingCategory.Description</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+	<DataGrid TItem="MeetingCategoryDTO"
+			  Data="@meetingCategories"
+			  IsStriped="true"
+			  UseInternalEditing="true"
+			  EditMode="@editMode"
+			  AllowEdit="@allowEdit"
+			  AllowSort="@allowSort"
+			  AllowFilter="@allowFilter"
+			  ShowPager="@showPager"
+			  RowInserted="@OnRowInserted"
+			  RowUpdated="@OnRowUpdated"
+			  RowRemoved="@OnRowRemoved">
+		<DataGridCommandColumn TItem="MeetingCategoryDTO">
+			<NewCommandTemplate>
+				<Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
+			</NewCommandTemplate>
+			<EditCommandTemplate>
+				<Button Color="Color.Primary" Clicked="@context.Clicked">Edit</Button>
+			</EditCommandTemplate>
+			<SaveCommandTemplate>
+				<Button Color="Color.Primary" Clicked="@context.Clicked">Save</Button>
+			</SaveCommandTemplate>
+			<DeleteCommandTemplate>
+				<Button Color="Color.Danger" Clicked="@context.Clicked">Delete</Button>
+			</DeleteCommandTemplate>
+			<CancelCommandTemplate>
+				<Button Color="Color.Secondary" Clicked="@context.Clicked">Cancel</Button>
+			</CancelCommandTemplate>
+			<ClearFilterCommandTemplate>
+				<Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
+			</ClearFilterCommandTemplate>
+		</DataGridCommandColumn>
+		<DataGridNumericColumn TItem="MeetingCategoryDTO" Field="@nameof(MeetingCategoryDTO.MeetingCategoryCode)" Caption="Id" />
+		<DataGridColumn TItem="MeetingCategoryDTO" Field="@nameof(MeetingCategoryDTO.Description)" Caption="Description" AllowEdit="true" />
+	</DataGrid>
+
+	<Button Clicked="@(() => allowEdit = !allowEdit)" Color="Color.Primary">Toggle Edit</Button>
 }
 
 @code {
-	MeetingCategoryDTO[] meetingCategories;
+	DataGridEditMode editMode = DataGridEditMode.Popup;
+	bool allowEdit = false;
+	bool allowSort = true;
+	bool allowFilter = true;
+	bool showPager = false;
+
+	List<MeetingCategoryDTO> meetingCategories;
 
 	protected override async Task OnInitializedAsync()
 	{
-		meetingCategories = await meetingCategoryService.GetMeetingCategoryAsync();
+		var meetingCategoriesDTO = await meetingCategoryService.GetMeetingCategoryAsync();
+		meetingCategories = meetingCategoriesDTO.ToList();
+	}
+
+	async void OnRowInserted(SavedRowItem<MeetingCategoryDTO, Dictionary<string, object>> e)
+	{
+		var meetingCategoryDTO = e.Item;
+
+		var response = await meetingCategoryService.InsertMeetingCategoryAsync(meetingCategoryDTO);
+
+		meetingCategoryDTO.MeetingCategoryCode = meetingCategories?.Max(x => x.MeetingCategoryCode) + 1 ?? 1;
+
+		meetingCategories.Add(meetingCategoryDTO);
+	}
+
+	async void OnRowUpdated(SavedRowItem<MeetingCategoryDTO, Dictionary<string, object>> e)
+	{
+		var meetingCategoryDTO = e.Item;
+
+		meetingCategoryDTO.Description = (string)e.Values["Description"];
+		var response = await meetingCategoryService.UpdateMeetingCategoryAsync(meetingCategoryDTO.MeetingCategoryCode, meetingCategoryDTO);
+	}
+
+	async void OnRowRemoved(MeetingCategoryDTO meetingCategoryDTO)
+	{
+		if (meetingCategories.Contains(meetingCategoryDTO))
+			meetingCategories.Remove(meetingCategoryDTO);
+
+		var response = await meetingCategoryService.DeleteMeetingCategoryAsync(meetingCategoryDTO.MeetingCategoryCode);
 	}
 }

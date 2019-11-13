@@ -10,29 +10,31 @@ namespace RaceMeetingManagerWebAPI.Service
 	public class MeetingDTOService : IMeetingDTOService
 	{
 		private readonly RaceMeetingManagerContext context;
+		private readonly IMapper mapper;
 
-		public MeetingDTOService(RaceMeetingManagerContext context)
+		public MeetingDTOService(RaceMeetingManagerContext context, IMapper mapper)
 		{
 			this.context = context;
+			this.mapper = mapper;
 		}
 
-		public Task Add(IMapper mapper, MeetingDTO meetingDTO)
+		public Task Add(MeetingDTO meetingDTO)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<IEnumerable<MeetingDTO>> Get(IMapper mapper)
+		public async Task<IEnumerable<MeetingDTO>> Get()
 		{
 			var meetings = await context.Meetings.ToListAsync();
-			return mapper.Map<MeetingDTO[]>(meetings);
+			return this.mapper.Map<MeetingDTO[]>(meetings);
 		}
 
-		public Task<MeetingDTO> Get(IMapper mapper, int meetCode)
+		public Task<MeetingDTO> Get(int meetCode)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public void Update(IMapper mapper, MeetingDTO meetingDTO)
+		public void Update(MeetingDTO meetingDTO)
 		{
 			throw new System.NotImplementedException();
 		}

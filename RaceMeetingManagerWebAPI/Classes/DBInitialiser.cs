@@ -2,7 +2,7 @@
 using RaceMeetingManagerWebAPI.Model;
 using System;
 
-namespace RaceMeetingManagerWebAPI.Class
+namespace RaceMeetingManagerWebAPI.Classes
 {
 	public class DBInitialiser
 	{
