@@ -32,42 +32,44 @@ namespace RaceMeetingManagerWebAPI.Controllers
 			return Ok(await this.meetingCategoryDTOService.Get(this.mapper));
 		}
 
+		[HttpGet("{id}")]
+		public async Task<ActionResult<MeetingCategoryDTO>> Get(int id)
+		{
+			var meetingCategoryDTO = this.meetingCategoryDTOService.Get(this.mapper, id);
+
+			if (meetingCategoryDTO == null)
+				return NotFound();
+
+			return Ok(meetingCategoryDTO);
+		}
+
 		/// <summary>Creates the specified meeting category.</summary>  
 		/// <param name="MeetingCategory">The meeting category.</param>  
 		/// <returns>Task<ActionResult<MeetingCategory>>.</returns>  
 		[HttpPost]
-		public async Task<ActionResult<MeetingCategory>> Create([FromBody] MeetingCategory meetingCategory)
+		public async Task<ActionResult<MeetingCategoryDTO>> Create([FromBody] MeetingCategoryDTO meetingCategoryDTO)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			await context.MeetingCategories.AddAsync(meetingCategory);
-			await context.SaveChangesAsync();
+			var meetingCategoryDTOAdded = await this.meetingCategoryDTOService.Add(this.mapper, meetingCategoryDTO);
 
-			return Ok(meetingCategory);
+			return CreatedAtAction("Get", new { id = meetingCategoryDTOAdded.MeetingCategoryCode }, meetingCategoryDTOAdded);
 		}
 
 		/// <summary>Updates the specified identifier.</summary>  
 		/// <param name="id">The identifier.</param>  
-		/// <param name="meetingCategoryFromJson">The meeting category from json.</param>  
+		/// <param name="meetingCategoryDTO">The meeting category from json.</param>  
 		/// <returns>Task<ActionResult<MeetingCategory>>.</returns>  
 		[HttpPut("{id}")]
-		public async Task<ActionResult<MeetingCategory>> Update(int id, [FromBody] MeetingCategory meetingCategoryFromJson)
+		public async Task<IActionResult> Update(int id, [FromBody] MeetingCategoryDTO meetingCategoryDTO)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var meetingCategory = await context.MeetingCategories.FindAsync(id);
+			this.meetingCategoryDTOService.Update(this.mapper, meetingCategoryDTO);
 
-			if (meetingCategory == null)
-				return NotFound();
-
-			meetingCategory.Description = meetingCategoryFromJson.Description;
-			meetingCategory.MeetingCategoryCode = id;
-
-			await context.SaveChangesAsync();
-
-			return Ok(meetingCategory);
+			return NoContent();
 		}
 
 		/// <summary>Deletes the specified identifier.</summary>  

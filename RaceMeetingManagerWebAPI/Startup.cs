@@ -38,6 +38,12 @@ namespace RaceMeetingManagerWebAPI
 			services.AddControllers();
 			services.AddDbContext<RaceMeetingManagerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
 			services.AddSwaggerDocument();
+
+			services.AddCors(o => o.AddPolicy("Policy", builder => {
+				builder.AllowAnyOrigin()
+				  .AllowAnyMethod()
+				  .AllowAnyHeader();
+			}));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +66,8 @@ namespace RaceMeetingManagerWebAPI
 			{
 				endpoints.MapControllers();
 			});
+
+			app.UseCors("Policy");
 		}
 	}
 }

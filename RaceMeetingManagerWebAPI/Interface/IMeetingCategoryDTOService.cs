@@ -9,7 +9,8 @@ namespace RaceMeetingManagerWebAPI.Interface
 	{
 		Task<MeetingCategoryDTO> Get(IMapper mapper, int meetCode);
 		Task<IEnumerable<MeetingCategoryDTO>> Get(IMapper mapper);
-		void Update(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO);
-		Task Add(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO);
+		Task<MeetingCategoryDTO> Update(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO);
+		Task<MeetingCategoryDTO> Add(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO);
+		void Delete(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO);
 	}
 }

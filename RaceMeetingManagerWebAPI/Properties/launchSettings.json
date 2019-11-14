@@ -11,8 +11,8 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/meetings",
+      "launchBrowser": false,
+      "launchUrl": "api/meetingCategory",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "RaceMeetingManagerWebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/Meeting",
+      "launchUrl": "api/MeetingCategory",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/meetings",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/meetingCategory",
       "environmentVariables": {
         "ASPNETCORE_URLS": "https://+:443;http://+:80",
         "ASPNETCORE_HTTPS_PORT": "44365"

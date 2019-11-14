@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RaceMeetingManagerDTOLayer;
 using RaceMeetingManagerWebAPI.Interface;
+using RaceMeetingManagerWebAPI.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,9 +19,26 @@ namespace RaceMeetingManagerWebAPI.Service
 			this.context = context;
 		}
 
-		public Task Add(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO)
+		~MeetingCategoryDTOService()
 		{
-			throw new System.NotImplementedException();
+			this.context.Dispose();
+		}
+
+		public async Task<MeetingCategoryDTO> Add(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO)
+		{
+			var meetingCategory = mapper.Map<MeetingCategory>(meetingCategoryDTO);
+			var meetingCategoryAdded = context.MeetingCategories.Add(meetingCategory).Entity;
+
+			await context.SaveChangesAsync();
+
+			return mapper.Map<MeetingCategoryDTO>(meetingCategoryAdded);
+		}
+
+		public async void Delete(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO)
+		{
+			var meetingCategory = mapper.Map<MeetingCategory>(meetingCategoryDTO);
+			context.MeetingCategories.Remove(meetingCategory);
+			await context.SaveChangesAsync();
 		}
 
 		public async Task<IEnumerable<MeetingCategoryDTO>> Get(IMapper mapper)
@@ -27,14 +47,24 @@ namespace RaceMeetingManagerWebAPI.Service
 			return mapper.Map<MeetingCategoryDTO[]>(meetingCategories);
 		}
 
-		public Task<MeetingCategoryDTO> Get(IMapper mapper, int meetCode)
+		public async Task<MeetingCategoryDTO> Get(IMapper mapper, int meetingCategoryCode)
 		{
-			throw new System.NotImplementedException();
+			var meetingCategory = await context.MeetingCategories.FindAsync(meetingCategoryCode);
+			return mapper.Map<MeetingCategoryDTO>(meetingCategory);
 		}
 
-		public void Update(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO)
+		public async Task<MeetingCategoryDTO> Update(IMapper mapper, MeetingCategoryDTO meetingCategoryDTO)
 		{
-			throw new System.NotImplementedException();
+			var meetingCategory = await this.context.MeetingCategories.FindAsync(meetingCategoryDTO.MeetingCategoryCode);
+
+			meetingCategory.Description = meetingCategoryDTO.Description;
+
+			this.context.MeetingCategories.Update(meetingCategory);
+			this.context.Entry(meetingCategory).State = EntityState.Modified;
+
+			await this.context.SaveChangesAsync();
+
+			return mapper.Map<MeetingCategoryDTO>(meetingCategory);
 		}
 	}
 }

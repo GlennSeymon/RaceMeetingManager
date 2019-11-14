@@ -24,9 +24,9 @@ namespace RaceMeetingManagerUIBlazor.Data
 			return JsonConvert.DeserializeObject<MeetingCategoryDTO>(meetingCategory);
 		}
 
-		public async Task<HttpResponseMessage> InsertMeetingCategoryAsync(MeetingCategoryDTO meetingCategory)
+		public async Task<HttpResponseMessage> InsertMeetingCategoryAsync(MeetingCategoryDTO meetingCategoryDTO)
 		{
-			return await this.httpClient.PostAsync($"{this.baseUrl}{this.urlPrefix}", GetStringContentFromObject(meetingCategory));
+			return await this.httpClient.PostAsync($"{this.baseUrl}{this.urlPrefix}", GetStringContentFromObject(meetingCategoryDTO));
 		}
 
 		public async Task<HttpResponseMessage> UpdateMeetingCategoryAsync(int id, MeetingCategoryDTO meetingCategory)

@@ -66,22 +66,18 @@ else
 
 	protected override async Task OnInitializedAsync()
 	{
-		var meetingCategoriesDTO = await meetingCategoryService.GetMeetingCategoryAsync();
-		meetingCategories = meetingCategoriesDTO.ToList();
+		await Load();
 	}
 
-	async void OnRowInserted(SavedRowItem<MeetingCategoryDTO, Dictionary<string, object>> e)
+	protected async Task OnRowInserted(SavedRowItem<MeetingCategoryDTO, Dictionary<string, object>> e)
 	{
 		var meetingCategoryDTO = e.Item;
 
 		var response = await meetingCategoryService.InsertMeetingCategoryAsync(meetingCategoryDTO);
-
-		meetingCategoryDTO.MeetingCategoryCode = meetingCategories?.Max(x => x.MeetingCategoryCode) + 1 ?? 1;
-
-		meetingCategories.Add(meetingCategoryDTO);
+		await Load();
 	}
 
-	async void OnRowUpdated(SavedRowItem<MeetingCategoryDTO, Dictionary<string, object>> e)
+	protected async Task OnRowUpdated(SavedRowItem<MeetingCategoryDTO, Dictionary<string, object>> e)
 	{
 		var meetingCategoryDTO = e.Item;
 
@@ -89,11 +85,16 @@ else
 		var response = await meetingCategoryService.UpdateMeetingCategoryAsync(meetingCategoryDTO.MeetingCategoryCode, meetingCategoryDTO);
 	}
 
-	async void OnRowRemoved(MeetingCategoryDTO meetingCategoryDTO)
+	protected async Task OnRowRemoved(MeetingCategoryDTO meetingCategoryDTO)
 	{
 		if (meetingCategories.Contains(meetingCategoryDTO))
 			meetingCategories.Remove(meetingCategoryDTO);
 
 		var response = await meetingCategoryService.DeleteMeetingCategoryAsync(meetingCategoryDTO.MeetingCategoryCode);
+	}
+
+	protected async Task Load() {
+		var meetingCategoriesDTO = await meetingCategoryService.GetMeetingCategoryAsync();
+		meetingCategories = meetingCategoriesDTO.ToList();
 	}
 }
